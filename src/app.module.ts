@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EntryModule } from './entry/entry.module';
+import { AuthorModule } from './author/author.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EntryModule } from './entry/entry.module';
       autoSchemaFile: true,
     }),
     EntryModule,
+    AuthorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

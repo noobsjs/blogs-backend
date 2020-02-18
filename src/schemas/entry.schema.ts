@@ -2,6 +2,7 @@ import * as mongoose from "mongoose";
 import { ObjectType, Field } from "type-graphql";
 import nullableConst from "src/common/utils/nullableConst";
 import { GraphQLDateTime } from "graphql-iso-date";
+import { AUTHOR_MODEL, AuthorInterface } from "src/schemas/author.schema";
 
 export const EntrySchema = new mongoose.Schema(
   {
@@ -14,7 +15,11 @@ export const EntrySchema = new mongoose.Schema(
     },
     publicationDate: Date,
     fullBody: String,
-    tags: [String]
+    tags: [String],
+    author: {
+      type: mongoose.Types.ObjectId,
+      ref: AUTHOR_MODEL
+    }
   },
   {
     timestamps: {
@@ -51,6 +56,9 @@ export class EntryInterface extends mongoose.Document {
     defaultValue: []
   })
   tags: string[]
+
+  @Field(type => AuthorInterface, nullableConst)
+  author: AuthorInterface
 
   @Field(type => GraphQLDateTime)
   createdAt: string;

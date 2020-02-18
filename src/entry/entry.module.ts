@@ -6,14 +6,14 @@ import { EntryResolver } from './entry.resolver';
 
 @Module({
   providers: [EntryService, EntryResolver],
-  imports: [MongooseModule.forFeatureAsync([
+  imports: [MongooseModule.forFeature([
     {
       name: ENTRY_MODEL,
-      useFactory: () => {
-        const schema = EntrySchema;
-        return schema;
-      },
+      schema: EntrySchema
     }
-  ])]
+  ])],
+  exports: [
+    EntryService
+  ]
 })
 export class EntryModule {}

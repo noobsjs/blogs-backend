@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { EntryInterface, ENTRY_MODEL } from '../schemas/entry.schema'
 import { SaveEntryDto } from 'src/entry/DTO/SaveEntryDto';
 import * as sanitizeHtml from 'sanitize-html'
+import mergeIfNotNull from 'src/common/utils/mergeIfNotNull';
 
 @Injectable()
 export class EntryService {
@@ -19,13 +20,22 @@ export class EntryService {
     return data
   }
 
+  async getByAuthor(authorId: string, limit = 10, offset = 0): Promise<EntryInterface[]> {
+    const data = await this.entrySchema.find({
+      author: authorId
+    }).skip(offset).limit(limit).exec()
+
+    return data
+  }
+
   async findById(postId: string) {
     return this.entrySchema.findById(postId).exec()
   }
 
   async createNew(): Promise<EntryInterface> {
     const entry = new this.entrySchema({
-      isPublicated: false
+      isPublicated: false,
+      author: "5e4ac80e5445160052b3e768"
     })
     
     return entry.save();
@@ -33,11 +43,7 @@ export class EntryService {
 
   async saveEntry(id: string, entry: SaveEntryDto) {
     const oldEntry = await this.entrySchema.findById(id).exec();
-    for (const key in entry) {
-      if (entry[key] !== undefined && entry[key] !== null) {
-        oldEntry[key] = entry[key]
-      }
-    }
+    mergeIfNotNull(oldEntry, entry)
 
     if (!oldEntry.publicationDate && entry.isPublicated) oldEntry.publicationDate = new Date().toISOString()
     if (entry.fullBody) oldEntry.fullBody = sanitizeHtml(entry.fullBody, { disallowedTagsMode: "recursiveEscape" })

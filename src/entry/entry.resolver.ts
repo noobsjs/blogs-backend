@@ -1,11 +1,13 @@
-import { Resolver, Query, Args, Mutation, ArgsOptions } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, ArgsOptions, Parent, ResolveProperty } from '@nestjs/graphql';
 import { EntryInterface } from 'src/schemas/entry.schema';
 import { EntryService } from 'src/entry/entry.service';
 import { PagedDto } from 'src/common/DTO/PagedDto';
 import { SaveEntryDto, SaveEntryArgs } from 'src/entry/DTO/SaveEntryDto';
 import { GenericIdDto } from 'src/common/DTO/GenericIdDto';
+import { FieldResolver, Root } from 'type-graphql';
+import { AuthorInterface, AUTHOR_MODEL } from 'src/schemas/author.schema';
 
-@Resolver('Entry')
+@Resolver(of => EntryInterface)
 export class EntryResolver {
 
   constructor(
@@ -35,6 +37,12 @@ export class EntryResolver {
   @Mutation(returns => EntryInterface)
   async deleteEntry(@Args() genericIdDto: GenericIdDto) {
     
+  }
+
+  @ResolveProperty()
+  async author(@Root() entry: EntryInterface) {
+    const author = (await entry.populate('author').execPopulate()).author
+    return author
   }
 
 }
