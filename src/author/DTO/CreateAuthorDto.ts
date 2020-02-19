@@ -23,21 +23,6 @@ class AuthorSocialNetworksDto {
 
 @InputType()
 export class CreateAuthorDto {
-  @Field(type => String)
-  @IsString()
-  @Length(4, 30)
-  username: string
-
-  @Field(type => String)
-  @IsString()
-  @MinLength(8)
-  @Matches(/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/) // Secure password
-  password: string
-
-  @Field(type => String)
-  @IsEmail()
-  @Length(10, 60)
-  email: string
 
   @Field(type => String, nullableConst)
   @IsOptional()

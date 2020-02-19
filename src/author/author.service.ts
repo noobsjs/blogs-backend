@@ -18,14 +18,18 @@ export class AuthorService {
     return this.authorSchema.find().populate('socialNetwork').exec()
   }
 
-  async createAuthor(newAuthorDto: CreateAuthorDto) {
-    
-    const newAuthor = {...newAuthorDto}
+  async findByUid(uid: string) { 
+    return this.authorSchema.findOne({
+      uid
+    }).populate('socialNetwork').exec()
+  }
 
-    const password = await saltAndHashPassword(newAuthor.password)
+  async createAuthor(userId: string, newAuthorDto: CreateAuthorDto) {
+    
+    const newAuthor = {...newAuthorDto, uid: userId}
 
     const createdAuthor = new this.authorSchema()
-    mergeIfNotNull(createdAuthor, {...newAuthor, ...password})
+    mergeIfNotNull(createdAuthor, newAuthor)
 
     await createdAuthor.save()
     return createdAuthor

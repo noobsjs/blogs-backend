@@ -6,24 +6,7 @@ import { EntryInterface } from "src/schemas/entry.schema";
 
 export const AuthorSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      unique: true,
-      required: true
-    },
-    password: {
-      type: String,
-      required: true
-    },
-    salt: {
-      type: String,
-      required: true
-    },
-    email: {
-      type: String,
-      unique: true,
-      required: true
-    },
+    uid: String,
     name: String,
     description: String,
     avatar: String,
@@ -63,7 +46,7 @@ export class AuthorInterface extends mongoose.Document {
   id: string;
 
   @Field(type => String)
-  username: string;
+  uid: string;
 
   @Field(type => String)
   name: string

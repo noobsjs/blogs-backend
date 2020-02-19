@@ -4,8 +4,12 @@ import { EntryService } from 'src/entry/entry.service';
 import { PagedDto } from 'src/common/DTO/PagedDto';
 import { SaveEntryDto, SaveEntryArgs } from 'src/entry/DTO/SaveEntryDto';
 import { GenericIdDto } from 'src/common/DTO/GenericIdDto';
-import { FieldResolver, Root } from 'type-graphql';
-import { AuthorInterface, AUTHOR_MODEL } from 'src/schemas/author.schema';
+import { Root } from 'type-graphql';
+import { UseGuards, ForbiddenException } from '@nestjs/common';
+import { AuthGuard } from 'src/common/guards/Auth.guard';
+import { RolesGuard } from 'src/common/guards/Roles.guard';
+import { CurrentUser } from 'src/common/decorators/CurrentUser';
+import { User } from 'src/common/types/FirebaseUser';
 
 @Resolver(of => EntryInterface)
 export class EntryResolver {
@@ -24,9 +28,13 @@ export class EntryResolver {
     return this.entryService.findById(genericId.id)
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(returns => EntryInterface)
-  async createEntry() {
-    return this.entryService.createNew()
+  async createEntry(@CurrentUser() user: User) {
+    if (!user.author) {
+      throw new ForbiddenException("You have to be an author to publish entries")
+    }
+    return this.entryService.createNew(user.author.id)
   }
 
   @Mutation(returns => EntryInterface)

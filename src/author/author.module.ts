@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { AuthorResolver } from './author.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AUTHOR_MODEL, AuthorSchema } from 'src/schemas/author.schema';
 import { EntryModule } from 'src/entry/entry.module';
 
+@Global()
 @Module({
   providers: [AuthorService, AuthorResolver],
   imports: [
@@ -15,6 +16,9 @@ import { EntryModule } from 'src/entry/entry.module';
       }
     ]), 
     EntryModule
+  ],
+  exports: [
+    AuthorService
   ]
 })
 export class AuthorModule {}

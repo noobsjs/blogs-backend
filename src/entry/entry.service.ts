@@ -32,10 +32,10 @@ export class EntryService {
     return this.entrySchema.findById(postId).exec()
   }
 
-  async createNew(): Promise<EntryInterface> {
+  async createNew(authorId: string): Promise<EntryInterface> {
     const entry = new this.entrySchema({
       isPublicated: false,
-      author: "5e4ac80e5445160052b3e768"
+      author: authorId
     })
     
     return entry.save();
