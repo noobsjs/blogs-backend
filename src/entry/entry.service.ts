@@ -32,6 +32,14 @@ export class EntryService {
     return this.entrySchema.findById(postId).exec()
   }
 
+  async findByTags(tags: string[], limit = 10, offset = 0): Promise<EntryInterface[]> {
+    return this.entrySchema.find({
+      tags: {
+        $in: tags
+      }
+    }).skip(offset).limit(limit).exec()
+  }
+
   async createNew(authorId: string): Promise<EntryInterface> {
     const entry = new this.entrySchema({
       isPublicated: false,

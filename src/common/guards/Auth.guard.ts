@@ -4,6 +4,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { FirebaseProvider } from 'src/firebase/firebase.provider';
 import { AuthorService } from 'src/author/author.service';
 import { User } from 'src/common/types/FirebaseUser';
+import { AuthorInterface } from 'src/schemas/author.schema';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,7 +26,7 @@ export class AuthGuard implements CanActivate {
       try {
         const decodedToken = await firebase.auth().verifyIdToken(jwt, true)
         const firebaseUser = await firebase.auth().getUser(decodedToken.uid)
-        const author = await this.authorService.findByUid(firebaseUser.uid) 
+        const author = await this.authorService.findByUid(firebaseUser.uid)
         req["user"] = {
           firebase: firebaseUser,
           author

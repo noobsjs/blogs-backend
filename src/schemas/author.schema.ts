@@ -54,7 +54,7 @@ export class AuthorInterface extends mongoose.Document {
   @Field(type => String)
   description: string
 
-  @Field(type => String)
+  @Field(type => String, nullableConst)
   avatar: string
 
   @Field(type => GraphQLDateTime)

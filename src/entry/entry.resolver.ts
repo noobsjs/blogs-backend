@@ -28,6 +28,16 @@ export class EntryResolver {
     return this.entryService.findById(genericId.id)
   }
 
+  @Query(returns => [EntryInterface])
+  async EntriesWithTag(@Args({
+    type: () => [String],
+    name: "tags"
+  }) tags: string[],
+    @Args() pagedDto: PagedDto
+  ){
+    return this.entryService.findByTags(tags, pagedDto.limit, pagedDto.offset)
+  }
+
   @UseGuards(AuthGuard)
   @Mutation(returns => EntryInterface)
   async createEntry(@CurrentUser() user: User) {
@@ -37,6 +47,7 @@ export class EntryResolver {
     return this.entryService.createNew(user.author.id)
   }
 
+  
   @Mutation(returns => EntryInterface)
   async saveEntry(@Args() genericId: GenericIdDto, @Args(SaveEntryArgs) input: SaveEntryDto) {
     return this.entryService.saveEntry(genericId.id, input)
