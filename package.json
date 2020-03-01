@@ -54,6 +54,7 @@
     "@types/mongoose": "^5.7.1",
     "@types/node": "^12.7.5",
     "@types/supertest": "^2.0.8",
+    "husky": "^4.2.3",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
@@ -79,5 +80,10 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }
