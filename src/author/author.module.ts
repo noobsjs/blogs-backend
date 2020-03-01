@@ -12,13 +12,11 @@ import { EntryModule } from 'src/entry/entry.module';
     MongooseModule.forFeature([
       {
         name: AUTHOR_MODEL,
-        schema: AuthorSchema
-      }
-    ]), 
-    EntryModule
+        schema: AuthorSchema,
+      },
+    ]),
+    EntryModule,
   ],
-  exports: [
-    AuthorService
-  ]
+  exports: [AuthorService],
 })
 export class AuthorModule {}

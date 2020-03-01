@@ -1,44 +1,44 @@
-import { InputType, Field } from "type-graphql";
-import { IsString, IsOptional, IsBoolean } from "class-validator";
-import { ArgsOptions } from "@nestjs/graphql";
-import nullableConst from "src/common/utils/nullableConst";
-
+import { InputType, Field } from 'type-graphql';
+import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { ArgsOptions } from '@nestjs/graphql';
+import nullableConst from 'src/common/utils/nullableConst';
 
 @InputType()
 export class SaveEntryDto {
-  @Field(type => String)
+  @Field((type) => String)
   @IsString()
-  readonly title: string
+  readonly title: string;
 
-  @Field( type => String, nullableConst)
+  @Field((type) => String, nullableConst)
   @IsOptional()
   @IsString()
-  readonly description: string
+  readonly description: string;
 
-  @Field( type => String, nullableConst)
+  @Field((type) => String, nullableConst)
   @IsOptional()
   @IsString()
-  readonly headPic: string
+  readonly headPic: string;
 
-  @Field( type => Boolean, nullableConst)
+  @Field((type) => Boolean, nullableConst)
   @IsOptional()
   @IsBoolean()
-  readonly isPublicated: boolean
+  readonly isPublicated: boolean;
 
-  @Field( type => String, nullableConst)
+  @Field((type) => String, nullableConst)
   @IsOptional()
   @IsString()
-  readonly fullBody: string
+  readonly fullBody: string;
 
-  @Field( type => [String], nullableConst)
+  @Field((type) => [String], nullableConst)
   @IsOptional()
   @IsString({
-    each: true
+    each: true,
   })
-  readonly tags: string[]
+  readonly tags: string[];
 }
 
+/* tslint:disable-next-line variable-name */
 export const SaveEntryArgs = {
   type: () => SaveEntryDto,
-  name: "input"
-} as ArgsOptions
+  name: 'input',
+} as ArgsOptions;

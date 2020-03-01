@@ -10,35 +10,41 @@ import { SaveAuthorDto } from 'src/author/DTO/SaveAuthorDto';
 @Injectable()
 export class AuthorService {
   constructor(
-    @InjectModel(AUTHOR_MODEL) private readonly authorSchema: Model<AuthorInterface>
+    @InjectModel(AUTHOR_MODEL)
+    private readonly authorSchema: Model<AuthorInterface>,
   ) {}
 
   async findAll() {
-    return this.authorSchema.find().populate('socialNetwork').exec()
+    return this.authorSchema
+      .find()
+      .populate('socialNetwork')
+      .exec();
   }
 
-  async findByUid(uid: string) { 
-    return this.authorSchema.findOne({
-      uid
-    }).populate('socialNetwork').exec()
+  async findByUid(uid: string) {
+    return this.authorSchema
+      .findOne({
+        uid,
+      })
+      .populate('socialNetwork')
+      .exec();
   }
 
   async createAuthor(userId: string, newAuthorDto: CreateAuthorDto) {
-    
-    const newAuthor = {...newAuthorDto, uid: userId}
+    const newAuthor = { ...newAuthorDto, uid: userId };
 
-    const createdAuthor = new this.authorSchema()
-    mergeIfNotNull(createdAuthor, newAuthor)
+    const createdAuthor = new this.authorSchema();
+    mergeIfNotNull(createdAuthor, newAuthor);
 
-    await createdAuthor.save()
-    return createdAuthor
+    await createdAuthor.save();
+    return createdAuthor;
   }
 
   async saveAuthor(id: string, newAuthorDto: SaveAuthorDto) {
-    const createdAuthor = new this.authorSchema()
-    mergeIfNotNull(createdAuthor, newAuthorDto)
+    const createdAuthor = new this.authorSchema();
+    mergeIfNotNull(createdAuthor, newAuthorDto);
 
-    await createdAuthor.save()
-    return createdAuthor
+    await createdAuthor.save();
+    return createdAuthor;
   }
 }

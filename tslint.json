@@ -1,6 +1,10 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier",
+    "tslint-config-airbnb"
+  ],
   "jsRules": {
     "no-unused-expression": true
   },
@@ -12,6 +16,7 @@
     "member-ordering": [false],
     "interface-name": [false],
     "arrow-parens": false,
+    "ter-arrow-parens": false,
     "object-literal-sort-keys": false
   },
   "rulesDirectory": []
